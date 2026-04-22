@@ -3,26 +3,35 @@ version: 0.2
 phases:
   install:
     commands:
-      - echo Installing kubectl
-      - curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.27.1/2023-04-19/bin/linux/amd64/kubectl
+      - echo Installing kubectl...
+      - curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.1/2023-04-19/bin/linux/amd64/kubectl
       - chmod +x kubectl
       - mv kubectl /usr/local/bin/
+      - echo Installing AWS CLI...
+      - apt-get update && apt-get install -y awscli
 
   pre_build:
     commands:
-      - echo Logging into ECR
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-
-      # 🔥 ADD THIS LINE
-      - aws eks update-kubeconfig --region $AWS_DEFAULT_REGION --name brain-tasks-cluster
+      - echo Logging into Amazon ECR...
+      - aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 828862865552.dkr.ecr.ap-south-1.amazonaws.com
+      - echo Updating kubeconfig for EKS...
+      - aws eks update-kubeconfig --region ap-south-1 --name brain-tasks-cluster
+      - echo Checking kubectl connection...
+      - kubectl get nodes
 
   build:
     commands:
-      - docker build -t brain-app .
-      - docker tag brain-app:latest $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/brain-app:latest
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t brain-tasks-app .
+      - docker tag brain-tasks-app:latest 828862865552.dkr.ecr.ap-south-1.amazonaws.com/brain-tasks-app:latest
 
   post_build:
     commands:
-      - docker push $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/brain-app:latest
+      - echo Build completed on `date`
+      - echo Pushing the Docker image to ECR...
+      - docker push 828862865552.dkr.ecr.ap-south-1.amazonaws.com/brain-tasks-app:latest
+      - echo Deploying to Kubernetes cluster...
       - kubectl apply -f deployment.yaml
       - kubectl apply -f service.yaml
+      - echo Deployment successful!
