@@ -13,6 +13,9 @@ phases:
       - echo Logging into ECR
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
 
+      # 🔥 ADD THIS LINE
+      - aws eks update-kubeconfig --region $AWS_DEFAULT_REGION --name brain-tasks-cluster
+
   build:
     commands:
       - docker build -t brain-app .
