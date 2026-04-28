@@ -1,0 +1,147 @@
+timestamp,message
+1777051625650,"[Container] 2026/04/24 17:27:00.300489 Running on CodeBuild On-demand
+"
+1777051625650,"[Container] 2026/04/24 17:27:00.300503 Waiting for agent ping
+"
+1777051625650,"[Container] 2026/04/24 17:27:00.503768 Waiting for DOWNLOAD_SOURCE
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.586364 Phase is DOWNLOAD_SOURCE
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.587609 CODEBUILD_SRC_DIR=/codebuild/output/src3895804916/src
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.588393 YAML location is /codebuild/readonly/buildspec.yml
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.590816 Setting HTTP client timeout to higher timeout for S3 source
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.590945 Processing environment variables
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.813509 No runtime version selected in buildspec.
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.875255 Moving to directory /codebuild/output/src3895804916/src
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.875284 Cache is not defined in the buildspec
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.923766 Skip cache due to: no paths specified to be cached
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.924215 Registering with agent
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.968499 Phases found in YAML: 1
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.968517  BUILD: 7 commands
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.968856 Phase complete: DOWNLOAD_SOURCE State: SUCCEEDED
+"
+1777051625650,"[Container] 2026/04/24 17:27:01.968870 Phase context status code:  Message: 
+"
+1777051625650,"[Container] 2026/04/24 17:27:02.103155 Entering phase INSTALL
+"
+1777051625650,"[Container] 2026/04/24 17:27:02.177532 Phase complete: INSTALL State: SUCCEEDED
+"
+1777051625650,"[Container] 2026/04/24 17:27:02.177556 Phase context status code:  Message: 
+"
+1777051625650,"[Container] 2026/04/24 17:27:02.226559 Entering phase PRE_BUILD
+"
+1777051625650,"[Container] 2026/04/24 17:27:02.247690 Phase complete: PRE_BUILD State: SUCCEEDED
+"
+1777051625650,"[Container] 2026/04/24 17:27:02.247710 Phase context status code:  Message: 
+"
+1777051625650,"[Container] 2026/04/24 17:27:02.295490 Entering phase BUILD
+"
+1777051625650,"[Container] 2026/04/24 17:27:02.341581 Running command mkdir -p /tmp/cp-action-source
+"
+1777051625650,"
+"
+1777051625650,"[Container] 2026/04/24 17:27:02.357396 Running command export CODEPIPELINE_INPUT_ACTION_SOURCE_PATH=/tmp/cp-action-source
+"
+1777051625650,"
+"
+1777051625650,"[Container] 2026/04/24 17:27:02.374974 Running command curl ""https://dyd0r2hravqen.cloudfront.net/deploy-eks-aws-1/0.1.0.tgz"" -o /tmp/cp-action-source/action-archive.tgz
+"
+1777051625650,"  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+"
+1777051625650,"                                 Dload  Upload   Total   Spent    Left  Speed
+"
+1777051625650,"  0     0   0     0   0     0     0     0  --:--:-- --:--:-- --:--:--     0100 34140k 100 34140k   0     0 74912k     0  --:--:-- --:--:-- --:--:-- 75035k
+"
+1777051625650,"
+"
+1777051625650,"[Container] 2026/04/24 17:27:03.729728 Running command tar -xvzf /tmp/cp-action-source/action-archive.tgz --strip-components=1 -C /tmp/cp-action-source
+"
+1777051625650,"package/dist/helm/helm
+"
+1777051625650,"package/dist/kubectl/kubectl
+"
+1777051625650,"package/dist/index.js
+"
+1777051625650,"package/dist/validationUtils.js
+"
+1777051625650,"package/package.json
+"
+1777051625650,"package/dist/index.d.ts.map
+"
+1777051625650,"package/dist/index.js.map
+"
+1777051625650,"package/dist/validationUtils.d.ts.map
+"
+1777051625650,"package/dist/validationUtils.js.map
+"
+1777051625650,"package/dist/index.d.ts
+"
+1777051625650,"package/dist/validationUtils.d.ts
+"
+1777051625650,"
+"
+1777051625650,"[Container] 2026/04/24 17:27:04.910836 Running command node $CODEPIPELINE_INPUT_ACTION_SOURCE_PATH/dist/index.js
+"
+1777051629683,"Logging in to Amazon EKS cluster.
+"
+1777051629683,"Running command: aws eks update-kubeconfig --region ap-south-1 --name brain-tasks-cluster
+"
+1777051641698,"Installing kubectl...
+"
+1777051641698,"Running command: chmod +x /tmp/cp-action-source/dist/kubectl/kubectl && sudo mv /tmp/cp-action-source/dist/kubectl/kubectl /usr/local/bin/kubectl
+"
+1777051641698,"Applying Kubernetes manifests.
+"
+1777051641698,"Running command: kubectl apply -f deployment.yaml -f service.yaml
+"
+1777051644464,"error validating ""deployment.yaml"": error validating data: failed to download openapi: the server has asked for the client to provide credentials; if you choose to ignore these errors, turn validation off with --validate=false
+"
+1777051644464,"error validating ""service.yaml"": error validating data: failed to download openapi: the server has asked for the client to provide credentials; if you choose to ignore these errors, turn validation off with --validate=false
+"
+1777051644464,'"------- Action Failed------- 
+"
+1777051644464,"Error running command kubectl apply -f deployment.yaml -f service.yaml Command failed: kubectl apply -f deployment.yaml -f service.yaml
+"
+1777051644464,"error validating ""deployment.yaml"": error validating data: failed to download openapi: the server has asked for the client to provide credentials; if you choose to ignore these errors, turn validation off with --validate=false
+"
+1777051644464,"error validating ""service.yaml"": error validating data: failed to download openapi: the server has asked for the client to provide credentials; if you choose to ignore these errors, turn validation off with --validate=false
+"
+1777051644464," 
+"
+1777051644464," Please add your action's role as an access entry in your eks cluster.
+"
+1777051644464,'"---------------------------- 
+"
+1777051644464,"
+"
+1777051644464,"[Container] 2026/04/24 17:27:24.086632 Running command [ -f /tmp/cp-action-source/action-output-variables.sh ] && chmod 755 /tmp/cp-action-source/action-output-variables.sh && source /tmp/cp-action-source/action-output-variables.sh || true
+"
+1777051644464,"
+"
+1777051644464,"[Container] 2026/04/24 17:27:24.096189 Running command if [[ ! -z $CodePipeline_ErrorCode || ! -z $CodePipeline_ErrorSummary ]]; then exit 1; fi
+"
+1777051644464,"
+"
+1777051644464,"[Container] 2026/04/24 17:27:24.103257 Command did not exit successfully if [[ ! -z $CodePipeline_ErrorCode || ! -z $CodePipeline_ErrorSummary ]]; then exit 1; fi exit status 1
+"
+1777051644464,"[Container] 2026/04/24 17:27:24.128215 Phase complete: BUILD State: FAILED
+"
+1777051644464,"[Container] 2026/04/24 17:27:24.128231 Phase context status code: COMMAND_EXECUTION_ERROR Message: Error while executing command: if [[ ! -z $CodePipeline_ErrorCode || ! -z $CodePipeline_ErrorSummary ]]; then exit 1; fi. Reason: exit status 1
+"
+1777051644464,"[Container] 2026/04/24 17:27:24.189116 Entering phase POST_BUILD
+"
+1777051644464,"[Container] 2026/04/24 17:27:24.224898 Phase complete: POST_BUILD State: SUCCEEDED
+"
+1777051644464,"[Container] 2026/04/24 17:27:24.224915 Phase context status code:  Message: 
+"
