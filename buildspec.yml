@@ -3,34 +3,42 @@ version: 0.2
 env:
   variables:
     AWS_DEFAULT_REGION: ap-south-1
-    REPOSITORY_URI: 828862865552.dkr.ecr.ap-south-1.amazonaws.com/brain-tasks-app
+    CLUSTER_NAME: brain-tasks-cluster
+    ECR_REPO: 828862865552.dkr.ecr.ap-south-1.amazonaws.com/brain-tasks-app
     IMAGE_TAG: latest
 
 phases:
+  install:
+    commands:
+      - echo Installing kubectl...
+      - curl -o kubectl https://dl.k8s.io/release/$(curl -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+      - chmod +x kubectl
+      - mv kubectl /usr/local/bin/
+      - kubectl version --client
+
   pre_build:
     commands:
-      - echo Logging in to Amazon ECR
+      - echo Logging into Amazon ECR...
       - aws --version
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $REPOSITORY_URI
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REPO
+      - echo Updating kubeconfig...
+      - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $CLUSTER_NAME
 
   build:
     commands:
       - echo Build started on `date`
       - docker build -t brain-tasks-app .
-      - docker tag brain-tasks-app:$IMAGE_TAG $REPOSITORY_URI:$IMAGE_TAG
+      - docker tag brain-tasks-app:latest $ECR_REPO:$IMAGE_TAG
 
   post_build:
     commands:
       - echo Build completed on `date`
-      - echo Pushing the Docker image
-      - docker push $REPOSITORY_URI:$IMAGE_TAG
-
-      # Optional: generate image definition file for deploy stage
-      - echo Writing image definitions file
-      - printf '[{"name":"brain-tasks-app","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - echo Pushing Docker image...
+      - docker push $ECR_REPO:$IMAGE_TAG
+      - echo Deploying to EKS...
+      - kubectl apply -f deployment.yaml
+      - kubectl apply -f service.yaml
 
 artifacts:
   files:
-    - imagedefinitions.json
-    - deployment.yaml
-    - service.yaml
+    - '**/*'
