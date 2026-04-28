@@ -22,7 +22,9 @@ phases:
       - aws --version
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REPO
       - echo Updating kubeconfig...
-      - aws eks --region $AWS_DEFAULT_REGION update-kubeconfig --name $CLUSTER_NAME
+      - aws eks update-kubeconfig --region ap-south-1 --name brain-tasks-cluster
+      - kubectl config get-contexts
+      - kubectl get nodes
 
   build:
     commands:
